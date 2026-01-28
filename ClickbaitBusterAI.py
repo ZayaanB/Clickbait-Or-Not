@@ -6,7 +6,7 @@ import re
 
 # --- APP CONFIG ---
 st.set_page_config(page_title="Clickbait Buster", page_icon="🕵️‍♂️")
-st.title("🕵️‍♂️ Clickbait Buster AI")
+st.title("Clickbait Buster AI")
 
 with st.sidebar:
     st.header("Settings")
@@ -38,7 +38,7 @@ def get_transcript_text(video_id):
     try:
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
-            # Use description as context fallback if subs are missing/blocked
+            # Use description as context fallback if subtitles are missing
             return info.get('description', 'No transcript available.')[:5000]
     except Exception as e:
         return f"Extraction error: {str(e)}"
