@@ -39,7 +39,7 @@ def get_transcript_text(video_id):
         with yt_dlp.YoutubeDL(ydl_opts) as ydl:
             info = ydl.extract_info(video_url, download=False)
             # Use description as context fallback if subtitles are missing
-            return info.get('description', 'No transcript available.')[:5000]
+            return info.get('description', 'No transcript available.')[:10000]
     except Exception as e:
         return f"Extraction error: {str(e)}"
 
@@ -67,8 +67,8 @@ if prompt := st.chat_input("Paste a YouTube URL..."):
                     f"VIDEO TITLE: {title}\n"
                     f"TRANSCRIPT CONTENT: {transcript}\n\n"
                     f"--- SCORING RUBRIC (Be lenient) ---\n"
-                    f"1-3: HONEST - Title is boring but accurate. No missing info.\n"
-                    f"4-6: EXAGGERATED - Title uses 'best' or 'amazing' but is mostly true.\n"
+                    f"1-3: HONEST - Accurate. No little to no missing info.\n"
+                    f"4-6: EXAGGERATED - Title uses 'best' or 'amazing' but content is mostly true.\n"
                     f"7-9: MISLEADING - Title leaves out a massive detail or implies a lie.\n"
                     f"10: TOTAL FRAUD - Title has NOTHING to do with the video.\n\n"
                     f"--- EXAMPLES ---\n"
@@ -77,9 +77,8 @@ if prompt := st.chat_input("Paste a YouTube URL..."):
                     f"ANALYSIS TASK:\n"
                     f"0. Provide a short summary of the video\n"
                     f"1. Give a Score based on the rubric.\n"
-                    f"2. State one specific thing the title promised that the video didn't deliver.\n"
-                    f"3. Verdict: Is it worth the user's time?\n"
-                    f"4. Verdict: In what cases may it be worth the user's time?"
+                    f"2. State one specific thing the title implied would be in the video that the video didn't mention.\n"
+                    f"3. Verdict: Is it worth the user's time? In what cases may it be worthwhile for the user to watch, consider demographics, interest, etc.\n"
                 )
             else:
                 final_prompt = prompt
